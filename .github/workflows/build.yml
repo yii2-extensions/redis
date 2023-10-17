@@ -51,7 +51,7 @@ jobs:
 
       - name: Run tests with phpunit and generate coverage.
         if: matrix.php == '8.1'
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml --colors=always --display-deprecations
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml --colors=always
 
       - name: Upload coverage to Codecov.
         if: matrix.php == '8.1'

@@ -765,11 +765,13 @@ class Connection extends Component
 
         $params = array_merge(explode(' ', $name), $params);
         $command = '*' . count($params) . "\r\n";
+
         foreach ($params as $arg) {
-            $command .= '$' . mb_strlen($arg, '8bit') . "\r\n" . $arg . "\r\n";
+            $command .= '$' . mb_strlen((string) $arg, '8bit') . "\r\n" . (string) $arg . "\r\n";
         }
 
         \Yii::debug("Executing Redis Command: {$name}", __METHOD__);
+
         if ($this->retries > 0) {
             $tries = $this->retries;
             while ($tries-- > 0) {
