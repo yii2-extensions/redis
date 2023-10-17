@@ -1,15 +1,21 @@
 {
-    "name": "yii2/template",
-    "type": "library",
-    "description": "_____",
+    "name": "yii2-extensions/redis",
+    "type": "yii2-extension",
+    "description": "Redis Cache, Session and ActiveRecord for the Yii framework",
     "keywords": [
-        "_____"
+        "yii2",
+        "redis",
+        "active-record",
+        "cache",
+        "session"
     ],
     "license": "mit",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-mbstring": "*",
         "yiisoft/yii2": "^2.2"
     },
     "require-dev": {
@@ -19,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "yii\\template\\": "src"
+            "yii\\redis\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "yii\\template\\tests\\": "tests"
+            "yiiunit\\extensions\\redis\\": "tests"
         }
     },
     "extra": {
@@ -40,7 +46,6 @@
     },
     "scripts": {
         "check-dependencies": "composer-require-checker",
-        "mutation": "roave-infection-static-analysis-plugin",
         "phpstan": "phpstan",
         "test": "phpunit"
     },

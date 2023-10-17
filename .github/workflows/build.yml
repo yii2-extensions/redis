@@ -1,31 +1,61 @@
 on:
-  pull_request:
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - '.gitignore'
-      - '.gitattributes'
-      - 'infection.json.dist'
-      - 'psalm.xml'
-
-  push:
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - '.gitignore'
-      - '.gitattributes'
-      - 'infection.json.dist'
-      - 'psalm.xml'
+  - pull_request
+  - push
 
 name: build
 
 jobs:
-  phpunit:
-    uses: yiisoft/actions/.github/workflows/phpunit.yml@master
-    with:
-      os: >-
-        ['ubuntu-latest', 'windows-latest']
-      php: >-
-        ['8.1', '8.2', '8.3']
+  tests:
+    name: PHP ${{ matrix.php }}-redis-${{ matrix.redis }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+
+        php:
+          - 8.1
+          - 8.2
+          - 8.3
+
+        redis:
+          - 4
+          - 5
+          - 6
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start Redis v4
+        uses: superchargejs/redis-github-action@1.1.0
+        with:
+          redis-version: ${{ matrix.redis }}
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, intl, redis
+          ini-values: date.timezone='UTC'
+          tools: composer:v2, pecl
+
+      - name: Install dependencies with Composer
+        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Run tests with phpunit.
+        if: matrix.php != '8.1'
+        run: vendor/bin/phpunit --colors=always
+
+      - name: Run tests with phpunit and generate coverage.
+        if: matrix.php == '8.1'
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml --colors=always
+
+      - name: Upload coverage to Codecov.
+        if: matrix.php == '8.1'
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
