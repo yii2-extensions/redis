@@ -627,7 +627,7 @@ class Connection extends Component
             $this->connectionString,
             $errorNumber,
             $errorDescription,
-            $this->connectionTimeout ?: ini_get('default_socket_timeout'),
+            $this->connectionTimeout ?: (float) ini_get('default_socket_timeout'),
             $this->socketClientFlags,
             stream_context_create($this->contextOptions)
         );
