@@ -64,7 +64,6 @@ class RedisConnectionTest extends TestCase
 
     /**
      * @dataProvider \yiiunit\extensions\redis\providers\Data::keyValueData
-     *
      */
     public function testStoreGet(mixed $data): void
     {
@@ -262,7 +261,7 @@ class RedisConnectionTest extends TestCase
     {
         $redis = $this->getConnection();
         $set = $params[0];
-        call_user_func_array($redis->hmset(...), $params);
+        ($redis->hmset(...))(...$params);
         foreach ($pairs as $field => $expected) {
             $actual = $redis->hget($set, $field);
             $this->assertEquals($expected, $actual);
