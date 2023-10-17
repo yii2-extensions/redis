@@ -11,7 +11,6 @@ namespace yiiunit\extensions\redis\data\ar;
  * @property int $customer_id
  * @property int $created_at
  * @property string $total
- *
  * @property Customer $customer
  * @property Item[] $itemsIndexed
  * @property OrderItem[] $orderItems
@@ -22,9 +21,8 @@ namespace yiiunit\extensions\redis\data\ar;
  * @property Item[] $itemsWithNullFK
  * @property OrderItemWithNullFK[] $orderItemsWithNullFK
  * @property Item[] $books
- *
- * @property-read Item[] $expensiveItemsUsingViaWithCallable
- * @property-read Item[] $cheapItemsUsingViaWithCallable
+ * @property Item[] $expensiveItemsUsingViaWithCallable
+ * @property Item[] $cheapItemsUsingViaWithCallable
  */
 class Order extends ActiveRecord
 {
@@ -68,15 +66,15 @@ class Order extends ActiveRecord
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
             ->via('orderItems', function (\yii\redis\ActiveQuery $q) {
                 $q->where(['>=', 'subtotal', 10]);
-	     });
-     }
+            });
+    }
 
     public function getCheapItemsUsingViaWithCallable()
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
             ->via('orderItems', function (\yii\redis\ActiveQuery $q) {
-	        $q->where(['<', 'subtotal', 10]);
-	    });
+                $q->where(['<', 'subtotal', 10]);
+            });
     }
 
     /**
@@ -156,8 +154,7 @@ class Order extends ActiveRecord
             $this->created_at = time();
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

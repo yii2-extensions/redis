@@ -46,12 +46,12 @@ use yii\di\Instance;
  * ]
  * ~~~
  *
- * @property-read bool $useCustomStorage Whether to use custom storage.
+ * @property bool $useCustomStorage Whether to use custom storage.
  */
 class Session extends \yii\web\Session
 {
     /**
-     * @var Connection|string|array the Redis [[Connection]] object or the application component ID of the Redis [[Connection]].
+     * @var array|Connection|string the Redis [[Connection]] object or the application component ID of the Redis [[Connection]].
      * This can also be an array that is used to create a redis [[Connection]] instance in case you do not want do configure
      * redis connection as an application component.
      * After the Session object is created, if you want to change this property, you should only assign it
@@ -66,10 +66,10 @@ class Session extends \yii\web\Session
      */
     public $keyPrefix;
 
-
     /**
      * Initializes the redis Session component.
      * This method will initialize the [[redis]] property to make sure it refers to a valid redis connection.
+     *
      * @throws InvalidConfigException if [[redis]] is invalid.
      */
     public function init()
@@ -84,6 +84,7 @@ class Session extends \yii\web\Session
     /**
      * Returns a value indicating whether to use custom session storage.
      * This method overrides the parent implementation and always returns true.
+     *
      * @return bool whether to use custom storage.
      */
     public function getUseCustomStorage()
@@ -93,9 +94,12 @@ class Session extends \yii\web\Session
 
     /**
      * Session open handler.
+     *
      * @internal Do not call this method directly.
+     *
      * @param string $savePath session save path
      * @param string $sessionName session name
+     *
      * @return bool whether session is opened successfully
      */
     public function openSession($savePath, $sessionName)
@@ -114,7 +118,9 @@ class Session extends \yii\web\Session
     /**
      * Session read handler.
      * Do not call this method directly.
+     *
      * @param string $id session ID
+     *
      * @return string the session data
      */
     public function readSession($id)
@@ -127,8 +133,10 @@ class Session extends \yii\web\Session
     /**
      * Session write handler.
      * Do not call this method directly.
+     *
      * @param string $id session ID
      * @param string $data session data
+     *
      * @return bool whether session write is successful
      */
     public function writeSession($id, $data)
@@ -144,7 +152,9 @@ class Session extends \yii\web\Session
     /**
      * Session destroy handler.
      * Do not call this method directly.
+     *
      * @param string $id session ID
+     *
      * @return bool whether session is destroyed successfully
      */
     public function destroySession($id)
@@ -156,7 +166,9 @@ class Session extends \yii\web\Session
 
     /**
      * Generates a unique key used for storing session data in cache.
+     *
      * @param string $id session variable name
+     *
      * @return string a safe cache key associated with the session variable name
      */
     protected function calculateKey($id)

@@ -9,6 +9,7 @@ use yii\redis\Connection;
 
 /**
  * Class for testing redis cache backend
+ *
  * @group redis
  * @group caching
  */
@@ -22,7 +23,7 @@ class RedisCacheTest extends CacheTestCase
     protected function getCacheInstance()
     {
         $databases = TestCase::getParam('databases');
-        $params = isset($databases['redis']) ? $databases['redis'] : null;
+        $params = $databases['redis'] ?? null;
         if ($params === null) {
             $this->markTestSkipped('No redis server connection configured.');
         }
@@ -144,12 +145,12 @@ class RedisCacheTest extends CacheTestCase
         $this->assertSame($cache->get($key), $value);
 
         $databases = TestCase::getParam('databases');
-        $redis = isset($databases['redis']) ? $databases['redis'] : null;
+        $redis = $databases['redis'] ?? null;
 
         $cache->replicas = [
             [
-                'hostname' => isset($redis['hostname']) ? $redis['hostname'] : 'localhost',
-                'password' => isset($redis['password']) ? $redis['password'] : null,
+                'hostname' => $redis['hostname'] ?? 'localhost',
+                'password' => $redis['password'] ?? null,
             ],
         ];
         $this->assertSame($cache->get($key), $value);
@@ -160,8 +161,8 @@ class RedisCacheTest extends CacheTestCase
         $cache->enableReplicas = true;
         $cache->replicas = [
             [
-                'hostname' => isset($redis['hostname']) ? $redis['hostname'] : 'localhost',
-                'password' => isset($redis['password']) ? $redis['password'] : null,
+                'hostname' => $redis['hostname'] ?? 'localhost',
+                'password' => $redis['password'] ?? null,
             ],
         ];
         $this->assertFalse($cache->get($key));
@@ -175,12 +176,12 @@ class RedisCacheTest extends CacheTestCase
 
         $cache->replicas = [
             [
-                'hostname' => isset($redis['hostname']) ? $redis['hostname'] : 'localhost',
-                'password' => isset($redis['password']) ? $redis['password'] : null,
+                'hostname' => $redis['hostname'] ?? 'localhost',
+                'password' => $redis['password'] ?? null,
             ],
             [
-                'hostname' => isset($redis['hostname']) ? $redis['hostname'] : 'localhost',
-                'password' => isset($redis['password']) ? $redis['password'] : null,
+                'hostname' => $redis['hostname'] ?? 'localhost',
+                'password' => $redis['password'] ?? null,
             ],
         ];
         $this->assertFalse($cache->get($key));

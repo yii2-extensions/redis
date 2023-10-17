@@ -11,7 +11,6 @@ namespace yiiunit\extensions\redis\data\ar;
  * @property int $item_id
  * @property int $quantity
  * @property string $subtotal
- *
  * @property Order $order
  * @property Item $item
  */

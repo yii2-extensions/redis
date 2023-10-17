@@ -90,12 +90,12 @@ use yii\di\Instance;
  * ]);
  * ~~~
  *
- * @property-read bool $isCluster Whether redis is running in cluster mode or not.
+ * @property bool $isCluster Whether redis is running in cluster mode or not.
  */
 class Cache extends \yii\caching\Cache
 {
     /**
-     * @var Connection|string|array the Redis [[Connection]] object or the application component ID of the Redis [[Connection]].
+     * @var array|Connection|string the Redis [[Connection]] object or the application component ID of the Redis [[Connection]].
      * This can also be an array that is used to create a redis [[Connection]] instance in case you do not want do configure
      * redis connection as an application component.
      * After the Cache object is created, if you want to change this property, you should only assign it
@@ -104,6 +104,7 @@ class Cache extends \yii\caching\Cache
     public $redis = 'redis';
     /**
      * @var bool whether to enable read / get from redis replicas.
+     *
      * @see $replicas
      */
     public $enableReplicas = false;
@@ -121,6 +122,7 @@ class Cache extends \yii\caching\Cache
      *     ['hostname' => 'redis-slave-003.xyz.0001.apse1.cache.amazonaws.com'],
      * ],
      * ```
+     *
      * @see $enableReplicas
      */
     public $replicas = [];
@@ -152,10 +154,10 @@ class Cache extends \yii\caching\Cache
      */
     private $_hashTagAvailable = false;
 
-
     /**
      * Initializes the redis Cache component.
      * This method will initialize the [[redis]] property to make sure it refers to a valid redis connection.
+     *
      * @throws \yii\base\InvalidConfigException if [[redis]] is invalid.
      */
     public function init()
@@ -170,8 +172,10 @@ class Cache extends \yii\caching\Cache
      * Note that this method does not check whether the dependency associated
      * with the cached data, if there is any, has changed. So a call to [[get]]
      * may return false while exists returns true.
+     *
      * @param mixed $key a key identifying the cached value. This can be a simple string or
      * a complex data structure consisting of factors representing the key.
+     *
      * @return bool true if a value exists in cache, false if the value is not in the cache or expired.
      */
     public function exists($key)
@@ -219,7 +223,6 @@ class Cache extends \yii\caching\Cache
             is_string($key)
             && $this->isCluster
             && preg_match('/^(.*)({.+})(.*)$/', $key, $matches) === 1) {
-
             $this->_hashTagAvailable = true;
 
             return parent::buildKey($matches[1] . $matches[3]) . $matches[2];
@@ -288,6 +291,7 @@ class Cache extends \yii\caching\Cache
      * `CLUSTER INFO` executes successfully, `false` otherwise.
      *
      * Setting [[forceClusterMode]] to either `true` or `false` is preferred.
+     *
      * @return bool whether redis is running in cluster mode or not
      */
     public function getIsCluster()
@@ -342,7 +346,7 @@ class Cache extends \yii\caching\Cache
         if ($this->shareDatabase) {
             $cursor = 0;
             do {
-                list($cursor, $keys) = $this->redis->scan($cursor, 'MATCH', $this->keyPrefix . '*');
+                [$cursor, $keys] = $this->redis->scan($cursor, 'MATCH', $this->keyPrefix . '*');
                 $cursor = (int) $cursor;
                 if (!empty($keys)) {
                     $this->redis->executeCommand('DEL', $keys);
@@ -358,8 +362,10 @@ class Cache extends \yii\caching\Cache
     /**
      * It will return the current Replica Redis [[Connection]], and fall back to default [[redis]] [[Connection]]
      * defined in this instance. Only used in getValue() and getValues().
-     * @return array|string|Connection
+     *
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return array|Connection|string
      */
     protected function getReplica()
     {

@@ -24,7 +24,7 @@ final class Data
                 [
                     'one' => '1',
                     'two' => '2',
-                    'three' => '3'
+                    'three' => '3',
                 ],
             ],
             [
@@ -32,9 +32,9 @@ final class Data
                 [
                     'one' => '',
                     'two' => '2',
-                    'three' => '3'
+                    'three' => '3',
                 ],
-            ]
+            ],
         ];
     }
 
@@ -50,8 +50,8 @@ final class Data
             ]], ["'`id`=`id` and 1'", 'ididand']],
             [['id' => [
                 'nested_illegal' => [
-                    'false or 1=' => 1
-                ]
+                    'false or 1=' => 1,
+                ],
             ]], [], ['false or 1=']],
 
             // custom condition injection
@@ -68,7 +68,7 @@ final class Data
             [['id' => [
                 'name' => 'test',
                 'email' => 'test@example.com',
-                "' .. redis.call('FLUSHALL') .. '" => "' .. redis.call('FLUSHALL') .. '"
+                "' .. redis.call('FLUSHALL') .. '" => "' .. redis.call('FLUSHALL') .. '",
             ]], ["'\\' .. redis.call(\\'FLUSHALL\\') .. \\'", 'rediscallFLUSHALL'], ["' .. redis.call('FLUSHALL') .. '"]],
         ];
     }
@@ -84,8 +84,8 @@ final class Data
             ]], ["'`id`=`id` and 1'", 'ididand']],
             [['id' => [
                 'nested_illegal' => [
-                    'false or 1=' => 1
-                ]
+                    'false or 1=' => 1,
+                ],
             ]], [], ['false or 1=']],
         ];
     }

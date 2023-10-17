@@ -64,6 +64,7 @@ class RedisConnectionTest extends TestCase
 
     /**
      * @dataProvider \yiiunit\extensions\redis\providers\Data::keyValueData
+     *
      * @param mixed $data
      */
     public function testStoreGet($data)
@@ -124,7 +125,9 @@ class RedisConnectionTest extends TestCase
 
         $this->assertTrue($db->ping());
         $this->assertCount(11, $logger->messages, 'log +1 ping command, and reconnection.'
-            . print_r(array_map(function($s) { return (string) $s; }, ArrayHelper::getColumn($logger->messages, 0)), true));
+            . print_r(array_map(function($s) {
+                return (string) $s;
+            }, ArrayHelper::getColumn($logger->messages, 0)), true));
     }
 
     public function testConnectionTimeoutRetryWithFirstFail()
@@ -133,7 +136,7 @@ class RedisConnectionTest extends TestCase
         Yii::setLogger($logger);
 
         $databases = TestCase::getParam('databases');
-        $redis = isset($databases['redis']) ? $databases['redis'] : [];
+        $redis = $databases['redis'] ?? [];
         $db = new ConnectionWithErrorEmulator($redis);
         $db->retries = 3;
 
@@ -150,7 +153,9 @@ class RedisConnectionTest extends TestCase
 
         $this->assertTrue($db->ping());
         $this->assertCount(10, $logger->messages, 'log +1 ping command, and two reconnections.'
-            . print_r(array_map(function($s) { return (string) $s; }, ArrayHelper::getColumn($logger->messages, 0)), true));
+            . print_r(array_map(function($s) {
+                return (string) $s;
+            }, ArrayHelper::getColumn($logger->messages, 0)), true));
     }
 
     /**
@@ -181,7 +186,9 @@ class RedisConnectionTest extends TestCase
         }
         $this->assertTrue($exception, 'SocketException should have been thrown.');
         $this->assertCount(14, $logger->messages, 'log +1 ping command, and reconnection.'
-            . print_r(array_map(function($s) { return (string) $s; }, ArrayHelper::getColumn($logger->messages, 0)), true));
+            . print_r(array_map(function($s) {
+                return (string) $s;
+            }, ArrayHelper::getColumn($logger->messages, 0)), true));
     }
 
     /**
@@ -213,13 +220,14 @@ class RedisConnectionTest extends TestCase
     public function testTwoWordCommands()
     {
         $redis = $this->getConnection();
-        $this->assertTrue(is_array($redis->executeCommand('CONFIG GET', ['port'])));
-        $this->assertTrue(is_string($redis->clientList()));
-        $this->assertTrue(is_string($redis->executeCommand('CLIENT LIST')));
+        $this->assertIsArray($redis->executeCommand('CONFIG GET', ['port']));
+        $this->assertIsString($redis->clientList());
+        $this->assertIsString($redis->executeCommand('CLIENT LIST'));
     }
 
     /**
      * @dataProvider \yiiunit\extensions\redis\providers\Data::zRangeByScoreData
+     *
      * @param array $members
      * @param array $cases
      */
@@ -228,12 +236,12 @@ class RedisConnectionTest extends TestCase
         $redis = $this->getConnection();
         $set = 'zrangebyscore';
         foreach ($members as $member) {
-            list($name, $score) = $member;
+            [$name, $score] = $member;
             $this->assertEquals(1, $redis->zadd($set, $score, $name));
         }
 
         foreach ($cases as $case) {
-            list($min, $max, $withScores, $limit, $offset, $count, $expectedRows) = $case;
+            [$min, $max, $withScores, $limit, $offset, $count, $expectedRows] = $case;
             if ($withScores !== null && $limit !== null) {
                 $rows = $redis->zrangebyscore($set, $min, $max, $withScores, $limit, $offset, $count);
             } elseif ($withScores !== null) {
@@ -243,7 +251,7 @@ class RedisConnectionTest extends TestCase
             } else {
                 $rows = $redis->zrangebyscore($set, $min, $max);
             }
-            $this->assertTrue(is_array($rows));
+            $this->assertIsArray($rows);
             $this->assertEquals(count($expectedRows), count($rows));
             for ($i = 0; $i < count($expectedRows); $i++) {
                 $this->assertEquals($expectedRows[$i], $rows[$i]);
@@ -253,6 +261,7 @@ class RedisConnectionTest extends TestCase
 
     /**
      * @dataProvider \yiiunit\extensions\redis\providers\Data::hmSetData
+     *
      * @param array $params
      * @param array $pairs
      */
@@ -261,7 +270,7 @@ class RedisConnectionTest extends TestCase
         $redis = $this->getConnection();
         $set = $params[0];
         call_user_func_array([$redis,'hmset'], $params);
-        foreach($pairs as $field => $expected) {
+        foreach ($pairs as $field => $expected) {
             $actual = $redis->hget($set, $field);
             $this->assertEquals($expected, $actual);
         }

@@ -18,6 +18,7 @@ use yiiunit\TestCase;
  * It is used directly in the unit tests for database active records in `tests/framework/db/ActiveRecordTest.php`
  * but also used in the test suites of `redis`, `mongodb`, `elasticsearch` and `sphinx` AR implementations
  * in the extensions.
+ *
  * @see https://github.com/yiisoft/yii2-redis/blob/a920547708c4a7091896923abc2499bc8c1c0a3b/tests/bootstrap.php#L17-L26
  */
 trait ActiveRecordTestTrait
@@ -25,24 +26,28 @@ trait ActiveRecordTestTrait
     /* @var $this TestCase */
     /**
      * This method should return the classname of Customer class.
+     *
      * @return string
      */
     abstract public function getCustomerClass();
 
     /**
      * This method should return the classname of Order class.
+     *
      * @return string
      */
     abstract public function getOrderClass();
 
     /**
      * This method should return the classname of OrderItem class.
+     *
      * @return string
      */
     abstract public function getOrderItemClass();
 
     /**
      * This method should return the classname of Item class.
+     *
      * @return string
      */
     abstract public function getItemClass();

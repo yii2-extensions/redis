@@ -25,8 +25,8 @@ use yiiunit\extensions\redis\ActiveRecordTest;
  */
 class Customer extends ActiveRecord
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 2;
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 2;
 
     public $status2;
 
@@ -98,10 +98,11 @@ class Customer extends ActiveRecord
 
     /**
      * @inheritdoc
+     *
      * @return CustomerQuery
      */
     public static function find()
     {
-        return new CustomerQuery(get_called_class());
+        return new CustomerQuery(static::class);
     }
 }

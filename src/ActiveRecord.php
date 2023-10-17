@@ -36,6 +36,7 @@ class ActiveRecord extends BaseActiveRecord
      * Returns the database connection used by this AR class.
      * By default, the "redis" application component is used as the database connection.
      * You may override this method if you want to use a different database connection.
+     *
      * @return Connection the database connection used by this AR class.
      */
     public static function getDb()
@@ -45,11 +46,12 @@ class ActiveRecord extends BaseActiveRecord
 
     /**
      * @inheritdoc
+     *
      * @return ActiveQuery the newly created [[ActiveQuery]] instance.
      */
     public static function find()
     {
-        return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
+        return Yii::createObject(ActiveQuery::className(), [static::class]);
     }
 
     /**
@@ -68,6 +70,7 @@ class ActiveRecord extends BaseActiveRecord
     /**
      * Returns the list of all attribute names of the model.
      * This method must be overridden by child classes to define available attributes.
+     *
      * @return array list of attribute names.
      */
     public function attributes()
@@ -80,11 +83,12 @@ class ActiveRecord extends BaseActiveRecord
      * By default this method returns the class name as the table name by calling [[Inflector::camel2id()]].
      * For example, 'Customer' becomes 'customer', and 'OrderItem' becomes
      * 'order_item'. You may override this method if you want different key naming.
+     *
      * @return string the prefix to apply to all AR keys
      */
     public static function keyPrefix()
     {
-        return Inflector::camel2id(StringHelper::basename(get_called_class()), '_');
+        return Inflector::camel2id(StringHelper::basename(static::class), '_');
     }
 
     /**
@@ -155,6 +159,7 @@ class ActiveRecord extends BaseActiveRecord
      * @param array $attributes attribute values (name-value pairs) to be saved into the table
      * @param array $condition the conditions that will be put in the WHERE part of the UPDATE SQL.
      * Please refer to [[ActiveQuery::where()]] on how to specify this parameter.
+     *
      * @return int the number of rows updated
      */
     public static function updateAll($attributes, $condition = null)
@@ -226,6 +231,7 @@ class ActiveRecord extends BaseActiveRecord
      * Use negative values if you want to decrement the counters.
      * @param array $condition the conditions that will be put in the WHERE part of the UPDATE SQL.
      * Please refer to [[ActiveQuery::where()]] on how to specify this parameter.
+     *
      * @return int the number of rows updated
      */
     public static function updateAllCounters($counters, $condition = null)
@@ -258,6 +264,7 @@ class ActiveRecord extends BaseActiveRecord
      *
      * @param array $condition the conditions that will be put in the WHERE part of the DELETE SQL.
      * Please refer to [[ActiveQuery::where()]] on how to specify this parameter.
+     *
      * @return int the number of rows deleted
      */
     public static function deleteAll($condition = null)
@@ -304,6 +311,7 @@ class ActiveRecord extends BaseActiveRecord
      * Builds a normalized key from a given primary key value.
      *
      * @param mixed $key the key to be normalized
+     *
      * @return string the generated key
      */
     public static function buildKey($key)

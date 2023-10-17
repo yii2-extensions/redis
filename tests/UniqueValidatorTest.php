@@ -153,5 +153,4 @@ class UniqueValidatorTest extends TestCase
         $validator->validateAttribute($model1, 'quantity');
         $this->assertTrue($model1->hasErrors('quantity'));
     }
-
 }

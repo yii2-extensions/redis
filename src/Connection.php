@@ -235,18 +235,18 @@ use yii\helpers\VarDumper;
  * @method mixed hscan($key, $cursor, $MATCH = null, $pattern = null, $COUNT = null, $count = null) Incrementally iterate hash fields and associated values. <https://redis.io/commands/hscan>
  * @method mixed zscan($key, $cursor, $MATCH = null, $pattern = null, $COUNT = null, $count = null) Incrementally iterate sorted sets elements and associated scores. <https://redis.io/commands/zscan>
  *
- * @property-read string $connectionString Socket connection string.
- * @property-read string $driverName Name of the DB driver.
- * @property-read bool $isActive Whether the DB connection is established.
- * @property-read LuaScriptBuilder $luaScriptBuilder
- * @property-read resource|false $socket
+ * @property string $connectionString Socket connection string.
+ * @property string $driverName Name of the DB driver.
+ * @property bool $isActive Whether the DB connection is established.
+ * @property LuaScriptBuilder $luaScriptBuilder
+ * @property false|resource $socket
  */
 class Connection extends Component
 {
     /**
      * @event Event an event that is triggered after a DB connection is established
      */
-    const EVENT_AFTER_OPEN = 'afterOpen';
+    public const EVENT_AFTER_OPEN = 'afterOpen';
 
     /**
      * @var string the hostname or ip address to use for connecting to the redis server. Defaults to 'localhost'.
@@ -262,7 +262,7 @@ class Connection extends Component
      */
     public $redirectConnectionString;
     /**
-     * @var integer the port to use for connecting to the redis server. Default port is 6379.
+     * @var int the port to use for connecting to the redis server. Default port is 6379.
      * If [[unixSocket]] is specified, [[hostname]] and port will be ignored.
      */
     public $port = 6379;
@@ -275,6 +275,7 @@ class Connection extends Component
     /**
      * @var string|null username for establishing DB connection. Defaults to `null` meaning AUTH command will be performed without username.
      * Username was introduced in Redis 6.
+     *
      * @link https://redis.io/commands/auth
      * @link https://redis.io/topics/acl
      */
@@ -285,7 +286,7 @@ class Connection extends Component
      */
     public $password;
     /**
-     * @var integer the redis database to use. This is an integer value starting from 0. Defaults to 0.
+     * @var int the redis database to use. This is an integer value starting from 0. Defaults to 0.
      * Since version 2.0.6 you can disable the SELECT command sent after connection by setting this property to `null`.
      */
     public $database = 0;
@@ -298,16 +299,17 @@ class Connection extends Component
      */
     public $dataTimeout;
     /**
-     * @var boolean Send sockets over SSL protocol. Default state is false.
+     * @var bool Send sockets over SSL protocol. Default state is false.
      */
     public $useSSL = false;
     /**
      * @var array PHP context options which are used in the Redis connection stream.
+     *
      * @see https://www.php.net/manual/en/context.ssl.php
      */
     public $contextOptions = [];
     /**
-     * @var integer Bitmask field which may be set to any combination of connection flags passed to [stream_socket_client()](https://www.php.net/manual/en/function.stream-socket-client.php).
+     * @var int Bitmask field which may be set to any combination of connection flags passed to [stream_socket_client()](https://www.php.net/manual/en/function.stream-socket-client.php).
      * Currently the select of connection flags is limited to `STREAM_CLIENT_CONNECT` (default), `STREAM_CLIENT_ASYNC_CONNECT` and `STREAM_CLIENT_PERSISTENT`.
      *
      * > Warning: `STREAM_CLIENT_PERSISTENT` will make PHP reuse connections to the same server. If you are using multiple
@@ -326,19 +328,20 @@ class Connection extends Component
      */
     public $socketClientFlags = STREAM_CLIENT_CONNECT;
     /**
-     * @var integer The number of times a command execution should be retried when a connection failure occurs.
+     * @var int The number of times a command execution should be retried when a connection failure occurs.
      * This is used in [[executeCommand()]] when a [[SocketException]] is thrown.
      * Defaults to 0 meaning no retries on failure.
      */
     public $retries = 0;
     /**
-     * @var integer The retry interval in microseconds to wait between retry.
+     * @var int The retry interval in microseconds to wait between retry.
      * This is used in [[executeCommand()]] when a [[SocketException]] is thrown.
      * Defaults to 0 meaning no wait.
      */
     public $retryInterval = 0;
     /**
      * @var array List of available redis commands.
+     *
      * @see https://redis.io/commands
      */
     public $redisCommands = [
@@ -560,9 +563,9 @@ class Connection extends Component
      */
     private $_pool = [];
 
-
     /**
      * Closes the connection when this component is being serialized.
+     *
      * @return array
      */
     public function __sleep()
@@ -574,6 +577,7 @@ class Connection extends Component
     /**
      * Return the connection string used to open a socket connection. During a redirect (cluster mode) this will be the
      * target of the redirect.
+     *
      * @return string socket connection string
      */
     public function getConnectionString()
@@ -587,7 +591,8 @@ class Connection extends Component
 
     /**
      * Return the connection resource if a connection to the target has been established before, `false` otherwise.
-     * @return resource|false
+     *
+     * @return false|resource
      */
     public function getSocket()
     {
@@ -596,6 +601,7 @@ class Connection extends Component
 
     /**
      * Returns a value indicating whether the DB connection is established.
+     *
      * @return bool whether the DB connection is established
      */
     public function getIsActive()
@@ -606,6 +612,7 @@ class Connection extends Component
     /**
      * Establishes a DB connection.
      * It does nothing if a DB connection has already been established.
+     *
      * @throws Exception if connection fails
      */
     public function open()
@@ -680,6 +687,7 @@ class Connection extends Component
 
     /**
      * Returns the name of the DB driver for the current [[dsn]].
+     *
      * @return string name of the DB driver
      */
     public function getDriverName()
@@ -704,6 +712,7 @@ class Connection extends Component
      *
      * @param string $name name of the missing method to execute
      * @param array $params method call arguments
+     *
      * @return mixed
      */
     public function __call($name, $params)
@@ -729,7 +738,10 @@ class Connection extends Component
      *
      * @param string $name the name of the command
      * @param array $params list of parameters for the command
-     * @return array|bool|null|string Dependent on the executed command this method
+     *
+     * @throws Exception for commands that return [error reply](https://redis.io/topics/protocol#error-reply).
+     *
+     * @return array|bool|string|null Dependent on the executed command this method
      * will return different data types:
      *
      * - `true` for commands that return "status reply" with the message `'OK'` or `'PONG'`.
@@ -741,7 +753,6 @@ class Connection extends Component
      *
      * See [redis protocol description](https://redis.io/topics/protocol)
      * for details on the mentioned reply types.
-     * @throws Exception for commands that return [error reply](https://redis.io/topics/protocol#error-reply).
      */
     public function executeCommand($name, $params = [])
     {
@@ -793,7 +804,10 @@ class Connection extends Component
      * @param string $command command string
      * @param array $params list of parameters for the command
      *
-     * @return array|bool|null|string Dependent on the executed command this method
+     * @throws Exception for commands that return [error reply](https://redis.io/topics/protocol#error-reply).
+     * @throws SocketException on connection error.
+     *
+     * @return array|bool|string|null Dependent on the executed command this method
      * will return different data types:
      *
      * - `true` for commands that return "status reply" with the message `'OK'` or `'PONG'`.
@@ -805,8 +819,6 @@ class Connection extends Component
      *
      * See [redis protocol description](https://redis.io/topics/protocol)
      * for details on the mentioned reply types.
-     * @throws Exception for commands that return [error reply](https://redis.io/topics/protocol#error-reply).
-     * @throws SocketException on connection error.
      */
     protected function sendRawCommand($command, $params)
     {
@@ -824,9 +836,11 @@ class Connection extends Component
     /**
      * @param array $params
      * @param string|null $command
-     * @return mixed
+     *
      * @throws Exception on error
      * @throws SocketException
+     *
+     * @return mixed
      */
     private function parseResponse($params, $command = null)
     {
@@ -850,7 +864,7 @@ class Connection extends Component
                     return $this->redirect($line, $command, $params);
                 }
 
-                throw new Exception("Redis error: " . $line . "\nRedis command was: " . $prettyCommand);
+                throw new Exception('Redis error: ' . $line . "\nRedis command was: " . $prettyCommand);
             case ':': // Integer reply
                 // no cast to int as it is in the range of a signed 64 bit integer
                 return $line;
@@ -884,6 +898,7 @@ class Connection extends Component
 
     /**
      * @param string $line
+     *
      * @return bool
      */
     private function isRedirect($line)
@@ -895,9 +910,11 @@ class Connection extends Component
      * @param string $redirect
      * @param string $command
      * @param array $params
-     * @return mixed
+     *
      * @throws Exception
      * @throws SocketException
+     *
+     * @return mixed
      */
     private function redirect($redirect, $command, $params)
     {

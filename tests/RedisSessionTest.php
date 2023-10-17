@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace yiiunit\extensions\redis;
 
 use yii\redis\Session;
-use yii\web\DbSession;
 
 /**
  * Class for testing redis session backend
+ *
  * @group redis
  * @group session
  */
@@ -26,6 +26,7 @@ class RedisSessionTest extends TestCase
 
     /**
      * Test set name. Also check set name twice and after open
+     *
      * @runInSeparateProcess
      */
     public function testSetName()
@@ -45,6 +46,7 @@ class RedisSessionTest extends TestCase
 
     /**
      * @depends testReadWrite
+     *
      * @runInSeparateProcess
      */
     public function testStrictMode()

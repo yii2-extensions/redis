@@ -7,9 +7,9 @@ namespace yiiunit\extensions\redis\data\ar;
 /**
  * Class Order
  *
- * @property integer $id
- * @property integer $customer_id
- * @property integer $created_at
+ * @property int $id
+ * @property int $customer_id
+ * @property int $created_at
  * @property string $total
  */
 class OrderWithNullFK extends ActiveRecord

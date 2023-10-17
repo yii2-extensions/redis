@@ -10,6 +10,7 @@ use yii\redis\Mutex;
 
 /**
  * Class for testing redis mutex
+ *
  * @group redis
  * @group mutex
  */
@@ -94,7 +95,7 @@ class RedisMutexTest extends TestCase
     {
         parent::setUp();
         $databases = TestCase::getParam('databases');
-        $params = isset($databases['redis']) ? $databases['redis'] : null;
+        $params = $databases['redis'] ?? null;
         if ($params === null) {
             $this->markTestSkipped('No redis server connection configured.');
 
@@ -106,15 +107,16 @@ class RedisMutexTest extends TestCase
     }
 
     /**
-     * @return Mutex
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return Mutex
      */
     protected function createMutex()
     {
         return Yii::createObject([
             'class' => Mutex::className(),
             'expire' => 1.5,
-            'keyPrefix' => static::$mutexPrefix
+            'keyPrefix' => static::$mutexPrefix,
         ]);
     }
 

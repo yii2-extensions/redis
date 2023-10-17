@@ -66,7 +66,7 @@ class Mutex extends \yii\mutex\Mutex
      */
     public $keyPrefix;
     /**
-     * @var Connection|string|array the Redis [[Connection]] object or the application component ID of the Redis [[Connection]].
+     * @var array|Connection|string the Redis [[Connection]] object or the application component ID of the Redis [[Connection]].
      * This can also be an array that is used to create a redis [[Connection]] instance in case you do not want do configure
      * redis connection as an application component.
      * After the Mutex object is created, if you want to change this property, you should only assign it
@@ -79,10 +79,10 @@ class Mutex extends \yii\mutex\Mutex
      */
     private $_lockValues = [];
 
-
     /**
      * Initializes the redis Mutex component.
      * This method will initialize the [[redis]] property to make sure it refers to a valid redis connection.
+     *
      * @throws InvalidConfigException if [[redis]] is invalid.
      */
     public function init()
@@ -96,9 +96,11 @@ class Mutex extends \yii\mutex\Mutex
 
     /**
      * Acquires a lock by name.
+     *
      * @param string $name of the lock to be acquired. Must be unique.
      * @param int $timeout time (in seconds) to wait for lock to be released. Defaults to `0` meaning that method will return
      * false immediately in case lock was already acquired.
+     *
      * @return bool lock acquiring result.
      */
     protected function acquireLock($name, $timeout = 0)
@@ -118,7 +120,9 @@ class Mutex extends \yii\mutex\Mutex
 
     /**
      * Releases acquired lock. This method will return `false` in case the lock was not found or Redis command failed.
+     *
      * @param string $name of the lock to be released. This lock must already exist.
+     *
      * @return bool lock release result: `false` in case named lock was not found or Redis command failed.
      */
     protected function releaseLock($name)
@@ -148,7 +152,9 @@ LUA;
 
     /**
      * Generates a unique key used for storing the mutex in Redis.
+     *
      * @param string $name mutex name.
+     *
      * @return string a safe cache key associated with the mutex name.
      */
     protected function calculateKey($name)

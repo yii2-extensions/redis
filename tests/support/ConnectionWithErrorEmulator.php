@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 namespace yiiunit\extensions\redis\support;
 
 use yii\redis\Connection;
 use yii\redis\SocketException;
 
-class ConnectionWithErrorEmulator extends Connection {
+class ConnectionWithErrorEmulator extends Connection
+{
     public $isTemporaryBroken = false;
 
     protected function sendRawCommand($command, $params)
