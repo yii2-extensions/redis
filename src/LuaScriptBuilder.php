@@ -253,7 +253,7 @@ EOF;
             return $str;
         }
 
-        return "'" . addcslashes($str, "\000\n\r\\\032\047") . "'";
+        return "'" . addcslashes((string) $str, "\000\n\r\\\032\047") . "'";
     }
 
     /**
