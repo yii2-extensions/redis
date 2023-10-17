@@ -155,7 +155,7 @@ class LuaScriptBuilder extends \yii\base\BaseObject
     private function build($query, $buildResult, $return)
     {
         $columns = [];
-        
+
         if ($query->where !== null) {
             $condition = $this->buildCondition($query->where, $columns);
         } else {
