@@ -1,6 +1,7 @@
 <?php
 
 namespace yiiunit\extensions\redis;
+
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\log\Logger;

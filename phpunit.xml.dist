@@ -11,7 +11,7 @@
     stopOnFailure="false"
 >
     <testsuites>
-        <testsuite name="Template">
+        <testsuite name="Yii2-Redis">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
