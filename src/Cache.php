@@ -1,9 +1,6 @@
 <?php
-/**
- * @link https://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license https://www.yiiframework.com/license/
- */
+
+declare(strict_types=1);
 
 namespace yii\redis;
 
@@ -94,9 +91,6 @@ use yii\di\Instance;
  * ~~~
  *
  * @property-read bool $isCluster Whether redis is running in cluster mode or not.
- *
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
  */
 class Cache extends \yii\caching\Cache
 {
@@ -110,7 +104,6 @@ class Cache extends \yii\caching\Cache
     public $redis = 'redis';
     /**
      * @var bool whether to enable read / get from redis replicas.
-     * @since 2.0.8
      * @see $replicas
      */
     public $enableReplicas = false;
@@ -128,8 +121,6 @@ class Cache extends \yii\caching\Cache
      *     ['hostname' => 'redis-slave-003.xyz.0001.apse1.cache.amazonaws.com'],
      * ],
      * ```
-     *
-     * @since 2.0.8
      * @see $enableReplicas
      */
     public $replicas = [];
@@ -137,7 +128,6 @@ class Cache extends \yii\caching\Cache
      * @var bool|null force cluster mode, don't check on every request. If this is null, cluster mode will be checked
      * once per request whenever the cache is accessed. To disable the check, set to true if cluster mode
      * should be enabled, or false if it should be disabled.
-     * @since 2.0.11
      */
     public $forceClusterMode;
     /**
@@ -146,7 +136,6 @@ class Cache extends \yii\caching\Cache
      * command, component will iterate through all keys in database and remove only these with matching [[$keyPrefix]].
      * Note that this will no longer be an atomic operation and it is much less efficient than `FLUSHDB` command. It is
      * recommended to use separate database for cache and leave this value as `false`.
-     * @since 2.0.12
      */
     public $shareDatabase = false;
 
@@ -300,7 +289,6 @@ class Cache extends \yii\caching\Cache
      *
      * Setting [[forceClusterMode]] to either `true` or `false` is preferred.
      * @return bool whether redis is running in cluster mode or not
-     * @since 2.0.11
      */
     public function getIsCluster()
     {
@@ -370,7 +358,6 @@ class Cache extends \yii\caching\Cache
     /**
      * It will return the current Replica Redis [[Connection]], and fall back to default [[redis]] [[Connection]]
      * defined in this instance. Only used in getValue() and getValues().
-     * @since 2.0.8
      * @return array|string|Connection
      * @throws \yii\base\InvalidConfigException
      */

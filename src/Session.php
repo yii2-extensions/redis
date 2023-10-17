@@ -1,9 +1,6 @@
 <?php
-/**
- * @link https://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license https://www.yiiframework.com/license/
- */
+
+declare(strict_types=1);
 
 namespace yii\redis;
 
@@ -50,9 +47,6 @@ use yii\di\Instance;
  * ~~~
  *
  * @property-read bool $useCustomStorage Whether to use custom storage.
- *
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
  */
 class Session extends \yii\web\Session
 {

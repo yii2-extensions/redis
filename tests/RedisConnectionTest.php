@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\redis;
 
 use Yii;
@@ -93,7 +95,7 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($db->ping());
         sleep(2);
         if (method_exists($this, 'setExpectedException')) {
-            $this->setExpectedException('\yii\redis\SocketException');
+            $this->expectException('\yii\redis\SocketException');
         } else {
             $this->expectException('\yii\redis\SocketException');
         }

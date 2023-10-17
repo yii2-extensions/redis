@@ -1,9 +1,6 @@
 <?php
-/**
- * @link https://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license https://www.yiiframework.com/license/
- */
+
+declare(strict_types=1);
 
 namespace yii\redis;
 
@@ -243,9 +240,6 @@ use yii\helpers\VarDumper;
  * @property-read bool $isActive Whether the DB connection is established.
  * @property-read LuaScriptBuilder $luaScriptBuilder
  * @property-read resource|false $socket
- *
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
  */
 class Connection extends Component
 {
@@ -261,12 +255,10 @@ class Connection extends Component
     public $hostname = 'localhost';
     /**
      * @var string the connection scheme used for connecting to the redis server. Defaults to 'tcp'.
-     * @since 2.0.18
      */
     public $scheme = 'tcp';
     /**
      * @var string if the query gets redirected, use this as the temporary new hostname
-     * @since 2.0.11
      */
     public $redirectConnectionString;
     /**
@@ -278,7 +270,6 @@ class Connection extends Component
      * @var string the unix socket path (e.g. `/var/run/redis/redis.sock`) to use for connecting to the redis server.
      * This can be used instead of [[hostname]] and [[port]] to connect to the server using a unix socket.
      * If a unix socket path is specified, [[hostname]] and [[port]] will be ignored.
-     * @since 2.0.1
      */
     public $unixSocket;
     /**
@@ -286,7 +277,6 @@ class Connection extends Component
      * Username was introduced in Redis 6.
      * @link https://redis.io/commands/auth
      * @link https://redis.io/topics/acl
-     * @since 2.0.16
      */
     public $username;
     /**
@@ -309,13 +299,11 @@ class Connection extends Component
     public $dataTimeout;
     /**
      * @var boolean Send sockets over SSL protocol. Default state is false.
-     * @since 2.0.12
      */
     public $useSSL = false;
     /**
      * @var array PHP context options which are used in the Redis connection stream.
      * @see https://www.php.net/manual/en/context.ssl.php
-     * @since 2.0.15
      */
     public $contextOptions = [];
     /**
@@ -335,21 +323,18 @@ class Connection extends Component
      * > ```
      *
      * @see https://www.php.net/manual/en/function.stream-socket-client.php
-     * @since 2.0.5
      */
     public $socketClientFlags = STREAM_CLIENT_CONNECT;
     /**
      * @var integer The number of times a command execution should be retried when a connection failure occurs.
      * This is used in [[executeCommand()]] when a [[SocketException]] is thrown.
      * Defaults to 0 meaning no retries on failure.
-     * @since 2.0.7
      */
     public $retries = 0;
     /**
      * @var integer The retry interval in microseconds to wait between retry.
      * This is used in [[executeCommand()]] when a [[SocketException]] is thrown.
      * Defaults to 0 meaning no wait.
-     * @since 2.0.10
      */
     public $retryInterval = 0;
     /**
@@ -590,7 +575,6 @@ class Connection extends Component
      * Return the connection string used to open a socket connection. During a redirect (cluster mode) this will be the
      * target of the redirect.
      * @return string socket connection string
-     * @since 2.0.11
      */
     public function getConnectionString()
     {

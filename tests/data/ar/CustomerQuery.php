@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\redis\data\ar;
 
 use yii\redis\ActiveQuery;

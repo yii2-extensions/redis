@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * This is the configuration file for the Yii2 unit tests.
  * You can override configuration values by creating a `config.local.php` file
@@ -10,7 +13,6 @@
  * $config['databases']['mysql']['username'] = 'yiitest';
  * $config['databases']['mysql']['password'] = 'changeme';
  */
-
 $config = [
     'databases' => [
         'redis' => [

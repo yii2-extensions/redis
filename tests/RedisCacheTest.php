@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\redis;
 
 use yii\redis\Cache;
@@ -206,7 +208,7 @@ class RedisCacheTest extends CacheTestCase
         $instance->redis->set('testkey', 'testvalue');
 
         for ($i = 0; $i < 1000; $i++) {
-            $instance->set(sha1($i), uniqid('', true));
+            $instance->set(sha1((string) $i), uniqid('', true));
         }
         $keys = $instance->redis->keys('*');
         $this->assertCount(1001, $keys);

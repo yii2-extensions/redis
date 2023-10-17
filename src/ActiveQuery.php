@@ -1,9 +1,6 @@
 <?php
-/**
- * @link https://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license https://www.yiiframework.com/license/
- */
+
+declare(strict_types=1);
 
 namespace yii\redis;
 
@@ -67,9 +64,6 @@ use yii\db\QueryTrait;
  * If a relation involves a junction table, it may be specified by [[via()]].
  * This methods may only be called in a relational context. Same is true for [[inverseOf()]], which
  * marks a relation as inverse of another relation.
- *
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
  */
 class ActiveQuery extends Component implements ActiveQueryInterface
 {
