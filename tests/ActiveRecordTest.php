@@ -509,25 +509,8 @@ class ActiveRecordTest extends TestCase
         $this->assertEquals(2, $query->count());
     }
 
-    public function illegalValuesForWhere()
-    {
-        return [
-            [['id' => ["' .. redis.call('FLUSHALL') .. '" => 1]], ["'\\' .. redis.call(\\'FLUSHALL\\') .. \\'", 'rediscallFLUSHALL']],
-            [['id' => ['`id`=`id` and 1' => 1]], ["'`id`=`id` and 1'", 'ididand']],
-            [['id' => [
-                'legal' => 1,
-                '`id`=`id` and 1' => 1,
-            ]], ["'`id`=`id` and 1'", 'ididand']],
-            [['id' => [
-                'nested_illegal' => [
-                    'false or 1=' => 1
-                ]
-            ]], [], ['false or 1=']],
-        ];
-    }
-
     /**
-     * @dataProvider illegalValuesForWhere
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::illegalValuesForWhere
      */
     public function testValueEscapingInWhere($filterWithInjection, $expectedStrings, $unexpectedStrings = [])
     {
@@ -546,43 +529,8 @@ class ActiveRecordTest extends TestCase
         }
     }
 
-    public function illegalValuesForFindByCondition()
-    {
-        return [
-            // code injection
-            [['id' => ["' .. redis.call('FLUSHALL') .. '" => 1]], ["'\\' .. redis.call(\\'FLUSHALL\\') .. \\'", 'rediscallFLUSHALL'], ["' .. redis.call('FLUSHALL') .. '"]],
-            [['id' => ['`id`=`id` and 1' => 1]], ["'`id`=`id` and 1'", 'ididand']],
-            [['id' => [
-                'legal' => 1,
-                '`id`=`id` and 1' => 1,
-            ]], ["'`id`=`id` and 1'", 'ididand']],
-            [['id' => [
-                'nested_illegal' => [
-                    'false or 1=' => 1
-                ]
-            ]], [], ['false or 1=']],
-
-            // custom condition injection
-            [['id' => [
-                'or',
-                '1=1',
-                'id' => 'id',
-            ]], ["cid0=='or' or cid0=='1=1' or cid0=='id'"], []],
-            [['id' => [
-                0 => 'or',
-                'first' => '1=1',
-                'second' => 1,
-            ]], ["cid0=='or' or cid0=='1=1' or cid0=='1'"], []],
-            [['id' => [
-                'name' => 'test',
-                'email' => 'test@example.com',
-                "' .. redis.call('FLUSHALL') .. '" => "' .. redis.call('FLUSHALL') .. '"
-            ]], ["'\\' .. redis.call(\\'FLUSHALL\\') .. \\'", 'rediscallFLUSHALL'], ["' .. redis.call('FLUSHALL') .. '"]],
-        ];
-    }
-
     /**
-     * @dataProvider illegalValuesForFindByCondition
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::illegalValuesForFindByCondition
      */
     public function testValueEscapingInFindByCondition($filterWithInjection, $expectedStrings, $unexpectedStrings = [])
     {

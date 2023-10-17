@@ -77,15 +77,7 @@ abstract class CacheTestCase extends TestCase
     }
 
     /**
-     * @return array testing multiSet with and without expiry
-     */
-    public static function multiSetExpiry(): array
-    {
-        return [[0], [2]];
-    }
-
-    /**
-     * @dataProvider multiSetExpiry
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::multiSetExpiry
      *
      * @param int $expiry Expiry in seconds.
      */

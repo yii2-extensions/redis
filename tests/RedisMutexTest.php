@@ -51,20 +51,11 @@ class RedisMutexTest extends TestCase
         $this->assertMutexKeyNotInRedis();
     }
 
-    public function acquireTimeoutProvider()
-    {
-        return [
-            'no timeout (lock is held)' => [0, false, false],
-            '2s (lock is held)' => [1, false, false],
-            '3s (lock will be auto released in acquire())' => [2, true, false],
-            '3s (lock is auto released)' => [2, true, true],
-        ];
-    }
-
     /**
      * @covers \yii\redis\Mutex::acquireLock
      * @covers \yii\redis\Mutex::releaseLock
-     * @dataProvider acquireTimeoutProvider
+     *
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::acquireTimeout
      */
     public function testConcurentMutexAcquireAndRelease($timeout, $canAcquireAfterTimeout, $lockIsReleased)
     {

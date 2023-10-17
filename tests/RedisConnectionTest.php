@@ -60,24 +60,8 @@ class RedisConnectionTest extends TestCase
         $db->close();
     }
 
-
     /**
-     * @return array
-     */
-    public function keyValueData()
-    {
-        return [
-            [123],
-            [-123],
-            [0],
-            ['test'],
-            ["test\r\ntest"],
-            [''],
-        ];
-    }
-
-    /**
-     * @dataProvider keyValueData
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::keyValueData
      * @param mixed $data
      */
     public function testStoreGet($data)
@@ -233,47 +217,7 @@ class RedisConnectionTest extends TestCase
     }
 
     /**
-     * @return array
-     */
-    public function zRangeByScoreData()
-    {
-        return [
-            [
-                'members' => [
-                    ['foo', 1],
-                    ['bar', 2],
-                ],
-                'cases' => [
-                    // without both scores and limit
-                    ['0', '(1', null, null, null, null, []],
-                    ['1', '(2', null, null, null, null, ['foo']],
-                    ['2', '(3', null, null, null, null, ['bar']],
-                    ['(0', '2', null, null, null, null, ['foo', 'bar']],
-
-                    // with scores, but no limit
-                    ['0', '(1', 'WITHSCORES', null, null, null, []],
-                    ['1', '(2', 'WITHSCORES', null, null, null, ['foo', 1]],
-                    ['2', '(3', 'WITHSCORES', null, null, null, ['bar', 2]],
-                    ['(0', '2', 'WITHSCORES', null, null, null, ['foo', 1, 'bar', 2]],
-
-                    // with limit, but no scores
-                    ['0', '(1', null, 'LIMIT', 0, 1, []],
-                    ['1', '(2', null, 'LIMIT', 0, 1, ['foo']],
-                    ['2', '(3', null, 'LIMIT', 0, 1, ['bar']],
-                    ['(0', '2', null, 'LIMIT', 0, 1, ['foo']],
-
-                    // with both scores and limit
-                    ['0', '(1', 'WITHSCORES', 'LIMIT', 0, 1, []],
-                    ['1', '(2', 'WITHSCORES', 'LIMIT', 0, 1, ['foo', 1]],
-                    ['2', '(3', 'WITHSCORES', 'LIMIT', 0, 1, ['bar', 2]],
-                    ['(0', '2', 'WITHSCORES', 'LIMIT', 0, 1, ['foo', 1]],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider zRangeByScoreData
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::zRangeByScoreData
      * @param array $members
      * @param array $cases
      */
@@ -306,32 +250,7 @@ class RedisConnectionTest extends TestCase
     }
 
     /**
-     * @return array
-     */
-    public function hmSetData()
-    {
-        return [
-            [
-                ['hmset1', 'one', '1', 'two', '2', 'three', '3'],
-                [
-                    'one' => '1',
-                    'two' => '2',
-                    'three' => '3'
-                ],
-            ],
-            [
-                ['hmset2', 'one', null, 'two', '2', 'three', '3'],
-                [
-                    'one' => '',
-                    'two' => '2',
-                    'three' => '3'
-                ],
-            ]
-        ];
-    }
-
-    /**
-     * @dataProvider hmSetData
+     * @dataProvider \yiiunit\extensions\redis\providers\Data::hmSetData
      * @param array $params
      * @param array $pairs
      */
