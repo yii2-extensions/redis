@@ -4,7 +4,6 @@ namespace yiiunit\extensions\redis;
 
 use yii\redis\Cache;
 use yii\redis\Connection;
-use yiiunit\framework\caching\CacheTestCase;
 
 /**
  * Class for testing redis cache backend
