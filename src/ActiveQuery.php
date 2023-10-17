@@ -8,7 +8,7 @@
 namespace yii\redis;
 
 use yii\base\Component;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\base\NotSupportedException;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveQueryTrait;
@@ -420,7 +420,7 @@ class ActiveQuery extends Component implements ActiveQueryInterface
      * @param string $type the type of the script to generate
      * @param string $columnName
      * @return array|bool|null|string
-     * @throws \yii\base\InvalidParamException
+     * @throws \yii\base\InvalidArgumentException
      * @throws \yii\base\NotSupportedException
      */
     private function findByPk($db, $type, $columnName = null)
@@ -574,6 +574,6 @@ class ActiveQuery extends Component implements ActiveQueryInterface
 
                 return $max;
         }
-        throw new InvalidParamException('Unknown fetch type: ' . $type);
+        throw new InvalidArgumentException('Unknown fetch type: ' . $type);
     }
 }
