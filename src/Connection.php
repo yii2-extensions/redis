@@ -627,7 +627,7 @@ class Connection extends Component
             $this->connectionString,
             $errorNumber,
             $errorDescription,
-            (float) $this->connectionTimeout ?: ini_get('default_socket_timeout'),
+            $this->connectionTimeout ?: ini_get('default_socket_timeout'),
             $this->socketClientFlags,
             stream_context_create($this->contextOptions)
         );
@@ -762,7 +762,7 @@ class Connection extends Component
         $command = '*' . count($params) . "\r\n";
 
         foreach ($params as $arg) {
-            $command .= '$' . mb_strlen((string) $arg, '8bit') . "\r\n" . (string) $arg . "\r\n";
+            $command .= '$' . mb_strlen($arg, '8bit') . "\r\n" . $arg . "\r\n";
         }
 
         \Yii::debug("Executing Redis Command: {$name}", __METHOD__);
