@@ -14,7 +14,7 @@ use yiiunit\extensions\redis\data\ar\OrderItem;
  */
 class UniqueValidatorTest extends TestCase
 {
-    public function testValidationInsert()
+    public function testValidationInsert(): void
     {
         ActiveRecord::$db = $this->getConnection(true);
 
@@ -36,7 +36,7 @@ class UniqueValidatorTest extends TestCase
         $this->assertTrue($customer->hasErrors('email'));
     }
 
-    public function testValidationUpdate()
+    public function testValidationUpdate(): void
     {
         ActiveRecord::$db = $this->getConnection(true);
 
@@ -60,7 +60,7 @@ class UniqueValidatorTest extends TestCase
         $this->assertTrue($customer1->hasErrors('email'));
     }
 
-    public function testValidationInsertCompositePk()
+    public function testValidationInsertCompositePk(): void
     {
         ActiveRecord::$db = $this->getConnection(true);
 
@@ -83,7 +83,7 @@ class UniqueValidatorTest extends TestCase
         $this->assertTrue($model->hasErrors('item_id'));
     }
 
-    public function testValidationInsertCompositePkUniqueAttribute()
+    public function testValidationInsertCompositePkUniqueAttribute(): void
     {
         ActiveRecord::$db = $this->getConnection(true);
 
@@ -105,7 +105,7 @@ class UniqueValidatorTest extends TestCase
         $this->assertTrue($model->hasErrors('quantity'));
     }
 
-    public function testValidationUpdateCompositePk()
+    public function testValidationUpdateCompositePk(): void
     {
         ActiveRecord::$db = $this->getConnection(true);
 
@@ -130,7 +130,7 @@ class UniqueValidatorTest extends TestCase
         $this->assertTrue($model1->hasErrors('item_id'));
     }
 
-    public function testValidationUpdateCompositePkUniqueAttribute()
+    public function testValidationUpdateCompositePkUniqueAttribute(): void
     {
         ActiveRecord::$db = $this->getConnection(true);
 

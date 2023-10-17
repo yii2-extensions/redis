@@ -56,7 +56,7 @@ class Order extends ActiveRecord
     public function getItems()
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
-            ->via('orderItems', function ($q) {
+            ->via('orderItems', function ($q): void {
                 // additional query configuration
             });
     }
@@ -64,7 +64,7 @@ class Order extends ActiveRecord
     public function getExpensiveItemsUsingViaWithCallable()
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
-            ->via('orderItems', function (\yii\redis\ActiveQuery $q) {
+            ->via('orderItems', function (\yii\redis\ActiveQuery $q): void {
                 $q->where(['>=', 'subtotal', 10]);
             });
     }
@@ -72,7 +72,7 @@ class Order extends ActiveRecord
     public function getCheapItemsUsingViaWithCallable()
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
-            ->via('orderItems', function (\yii\redis\ActiveQuery $q) {
+            ->via('orderItems', function (\yii\redis\ActiveQuery $q): void {
                 $q->where(['<', 'subtotal', 10]);
             });
     }
@@ -109,7 +109,7 @@ class Order extends ActiveRecord
     public function getItemsInOrder1()
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
-            ->via('orderItems', function ($q) {
+            ->via('orderItems', function ($q): void {
                 $q->orderBy(['subtotal' => SORT_ASC]);
             })->orderBy('name');
     }
@@ -120,7 +120,7 @@ class Order extends ActiveRecord
     public function getItemsInOrder2()
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
-            ->via('orderItems', function ($q) {
+            ->via('orderItems', function ($q): void {
                 $q->orderBy(['subtotal' => SORT_DESC]);
             })->orderBy('name');
     }

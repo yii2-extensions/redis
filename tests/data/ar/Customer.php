@@ -25,8 +25,8 @@ use yiiunit\extensions\redis\ActiveRecordTest;
  */
 class Customer extends ActiveRecord
 {
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 2;
+    final public const STATUS_ACTIVE = 1;
+    final public const STATUS_INACTIVE = 2;
 
     public $status2;
 
@@ -89,7 +89,7 @@ class Customer extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function afterSave($insert, $changedAttributes)
+    public function afterSave($insert, $changedAttributes): void
     {
         ActiveRecordTest::$afterSaveInsert = $insert;
         ActiveRecordTest::$afterSaveNewRecord = $this->isNewRecord;

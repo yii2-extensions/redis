@@ -25,7 +25,7 @@ class RedisConnectionTest extends TestCase
     /**
      * test connection to redis and selection of db
      */
-    public function testConnect()
+    public function testConnect(): void
     {
         $db = $this->getConnection(false);
         $database = $db->database;
@@ -50,7 +50,7 @@ class RedisConnectionTest extends TestCase
     /**
      * tests whether close cleans up correctly so that a new connect works
      */
-    public function testReConnect()
+    public function testReConnect(): void
     {
         $db = $this->getConnection(false);
         $db->open();
@@ -65,9 +65,8 @@ class RedisConnectionTest extends TestCase
     /**
      * @dataProvider \yiiunit\extensions\redis\providers\Data::keyValueData
      *
-     * @param mixed $data
      */
-    public function testStoreGet($data)
+    public function testStoreGet(mixed $data): void
     {
         $db = $this->getConnection(true);
 
@@ -75,7 +74,7 @@ class RedisConnectionTest extends TestCase
         $this->assertEquals($data, $db->get('hi'));
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $db = $this->getConnection(false);
         $db->open();
@@ -87,7 +86,7 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($db2->ping());
     }
 
-    public function testConnectionTimeout()
+    public function testConnectionTimeout(): void
     {
         $db = $this->getConnection(false);
         $db->configSet('timeout', 1);
@@ -103,7 +102,7 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($db->ping());
     }
 
-    public function testConnectionTimeoutRetry()
+    public function testConnectionTimeoutRetry(): void
     {
         $logger = new Logger();
         Yii::setLogger($logger);
@@ -125,12 +124,10 @@ class RedisConnectionTest extends TestCase
 
         $this->assertTrue($db->ping());
         $this->assertCount(11, $logger->messages, 'log +1 ping command, and reconnection.'
-            . print_r(array_map(function($s) {
-                return (string) $s;
-            }, ArrayHelper::getColumn($logger->messages, 0)), true));
+            . print_r(array_map(fn($s) => (string) $s, ArrayHelper::getColumn($logger->messages, 0)), true));
     }
 
-    public function testConnectionTimeoutRetryWithFirstFail()
+    public function testConnectionTimeoutRetryWithFirstFail(): void
     {
         $logger = new Logger();
         Yii::setLogger($logger);
@@ -153,15 +150,13 @@ class RedisConnectionTest extends TestCase
 
         $this->assertTrue($db->ping());
         $this->assertCount(10, $logger->messages, 'log +1 ping command, and two reconnections.'
-            . print_r(array_map(function($s) {
-                return (string) $s;
-            }, ArrayHelper::getColumn($logger->messages, 0)), true));
+            . print_r(array_map(fn($s) => (string) $s, ArrayHelper::getColumn($logger->messages, 0)), true));
     }
 
     /**
      * Retry connecting 2 times
      */
-    public function testConnectionTimeoutRetryCount()
+    public function testConnectionTimeoutRetryCount(): void
     {
         $logger = new Logger();
         Yii::setLogger($logger);
@@ -169,7 +164,7 @@ class RedisConnectionTest extends TestCase
         $db = $this->getConnection(false);
         $db->retries = 2;
         $db->configSet('timeout', 1);
-        $db->on(Connection::EVENT_AFTER_OPEN, function() {
+        $db->on(Connection::EVENT_AFTER_OPEN, function(): void {
             // sleep 2 seconds after connect to make every command time out
             sleep(2);
         });
@@ -181,20 +176,18 @@ class RedisConnectionTest extends TestCase
             // results in 3 times sending the PING command to redis
             sleep(2);
             $db->ping();
-        } catch (SocketException $e) {
+        } catch (SocketException) {
             $exception = true;
         }
         $this->assertTrue($exception, 'SocketException should have been thrown.');
         $this->assertCount(14, $logger->messages, 'log +1 ping command, and reconnection.'
-            . print_r(array_map(function($s) {
-                return (string) $s;
-            }, ArrayHelper::getColumn($logger->messages, 0)), true));
+            . print_r(array_map(fn($s) => (string) $s, ArrayHelper::getColumn($logger->messages, 0)), true));
     }
 
     /**
      * https://github.com/yiisoft/yii2/issues/4745
      */
-    public function testReturnType()
+    public function testReturnType(): void
     {
         $redis = $this->getConnection();
         $redis->executeCommand('SET', ['key1', 'val1']);
@@ -217,7 +210,7 @@ class RedisConnectionTest extends TestCase
         }
     }
 
-    public function testTwoWordCommands()
+    public function testTwoWordCommands(): void
     {
         $redis = $this->getConnection();
         $this->assertIsArray($redis->executeCommand('CONFIG GET', ['port']));
@@ -231,7 +224,7 @@ class RedisConnectionTest extends TestCase
      * @param array $members
      * @param array $cases
      */
-    public function testZRangeByScore($members, $cases)
+    public function testZRangeByScore($members, $cases): void
     {
         $redis = $this->getConnection();
         $set = 'zrangebyscore';
@@ -265,11 +258,11 @@ class RedisConnectionTest extends TestCase
      * @param array $params
      * @param array $pairs
      */
-    public function testHMSet($params, $pairs)
+    public function testHMSet($params, $pairs): void
     {
         $redis = $this->getConnection();
         $set = $params[0];
-        call_user_func_array([$redis,'hmset'], $params);
+        call_user_func_array($redis->hmset(...), $params);
         foreach ($pairs as $field => $expected) {
             $actual = $redis->hget($set, $field);
             $this->assertEquals($expected, $actual);

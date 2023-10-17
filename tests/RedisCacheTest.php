@@ -15,7 +15,7 @@ use yii\redis\Connection;
  */
 class RedisCacheTest extends CacheTestCase
 {
-    private $_cacheInstance;
+    private Cache|null $_cacheInstance = null;
 
     /**
      * @return Cache
@@ -47,7 +47,7 @@ class RedisCacheTest extends CacheTestCase
         $this->_cacheInstance = null;
     }
 
-    public function testExpireMilliseconds()
+    public function testExpireMilliseconds(): void
     {
         $cache = $this->getCacheInstance();
 
@@ -58,7 +58,7 @@ class RedisCacheTest extends CacheTestCase
         $this->assertFalse($cache->get('expire_test_ms'));
     }
 
-    public function testExpireAddMilliseconds()
+    public function testExpireAddMilliseconds(): void
     {
         $cache = $this->getCacheInstance();
 
@@ -73,7 +73,7 @@ class RedisCacheTest extends CacheTestCase
      * Store a value that is 2 times buffer size big
      * https://github.com/yiisoft/yii2/issues/743
      */
-    public function testLargeData()
+    public function testLargeData(): void
     {
         $cache = $this->getCacheInstance();
 
@@ -97,7 +97,7 @@ class RedisCacheTest extends CacheTestCase
      * Store a megabyte and see how it goes
      * https://github.com/yiisoft/yii2/issues/6547
      */
-    public function testReallyLargeData()
+    public function testReallyLargeData(): void
     {
         $cache = $this->getCacheInstance();
 
@@ -117,7 +117,7 @@ class RedisCacheTest extends CacheTestCase
         }
     }
 
-    public function testMultiByteGetAndSet()
+    public function testMultiByteGetAndSet(): void
     {
         $cache = $this->getCacheInstance();
 
@@ -129,7 +129,7 @@ class RedisCacheTest extends CacheTestCase
         $this->assertSame($cache->get($key), $data);
     }
 
-    public function testReplica()
+    public function testReplica(): void
     {
         $this->resetCacheInstance();
 
@@ -201,7 +201,7 @@ class RedisCacheTest extends CacheTestCase
         $this->resetCacheInstance();
     }
 
-    public function testFlushWithSharedDatabase()
+    public function testFlushWithSharedDatabase(): void
     {
         $instance = $this->getCacheInstance();
         $instance->shareDatabase = true;

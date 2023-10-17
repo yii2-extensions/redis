@@ -20,9 +20,9 @@ class RedisMutexTest extends TestCase
 
     protected static $mutexPrefix = 'prefix';
 
-    private static $_keys = [];
+    private static array $_keys = [];
 
-    public function testAcquireAndRelease()
+    public function testAcquireAndRelease(): void
     {
         $mutex = $this->createMutex();
 
@@ -39,7 +39,7 @@ class RedisMutexTest extends TestCase
         $this->assertMutexKeyNotInRedis();
     }
 
-    public function testExpiration()
+    public function testExpiration(): void
     {
         $mutex = $this->createMutex();
 
@@ -60,7 +60,7 @@ class RedisMutexTest extends TestCase
      *
      * @dataProvider \yiiunit\extensions\redis\providers\Data::acquireTimeout
      */
-    public function testConcurentMutexAcquireAndRelease($timeout, $canAcquireAfterTimeout, $lockIsReleased)
+    public function testConcurentMutexAcquireAndRelease($timeout, $canAcquireAfterTimeout, $lockIsReleased): void
     {
         $mutexOne = $this->createMutex();
         $mutexTwo = $this->createMutex();
