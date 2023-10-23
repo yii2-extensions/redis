@@ -59,6 +59,7 @@ use yii\mutex\RetryAcquireTrait;
  *
  * @author Sergey Makinen <sergey@makinen.ru>
  * @author Alexander Zhuravlev <axelhex@gmail.com>
+ *
  * @since 2.0.6
  */
 class Mutex extends \yii\mutex\Mutex

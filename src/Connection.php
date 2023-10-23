@@ -249,6 +249,7 @@ use yii\helpers\VarDumper;
  * @property false|resource $socket
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ *
  * @since 2.0
  */
 class Connection extends Component

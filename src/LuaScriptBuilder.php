@@ -20,6 +20,7 @@ use yii\db\Expression;
  * LuaScriptBuilder builds lua scripts used for retrieving data from redis.
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ *
  * @since 2.0
  */
 class LuaScriptBuilder extends \yii\base\BaseObject

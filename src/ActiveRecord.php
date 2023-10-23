@@ -38,6 +38,7 @@ use yii\helpers\StringHelper;
  * ```
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ *
  * @since 2.0
  */
 class ActiveRecord extends BaseActiveRecord

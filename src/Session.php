@@ -56,6 +56,7 @@ use yii\di\Instance;
  * @property bool $useCustomStorage Whether to use custom storage.
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ *
  * @since 2.0
  */
 class Session extends \yii\web\Session

@@ -100,6 +100,7 @@ use yii\di\Instance;
  * @property bool $isCluster Whether redis is running in cluster mode or not.
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ *
  * @since 2.0
  */
 class Cache extends \yii\caching\Cache

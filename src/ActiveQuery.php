@@ -73,6 +73,7 @@ use yii\db\QueryTrait;
  * marks a relation as inverse of another relation.
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ *
  * @since 2.0
  */
 class ActiveQuery extends Component implements ActiveQueryInterface
