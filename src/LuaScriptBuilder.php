@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/**
+ * @link https://www.yiiframework.com/
+ *
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yii\redis;
 
 use yii\base\InvalidArgumentException;
@@ -11,6 +18,9 @@ use yii\db\Expression;
 
 /**
  * LuaScriptBuilder builds lua scripts used for retrieving data from redis.
+ *
+ * @author Carsten Brandt <mail@cebe.cc>
+ * @since 2.0
  */
 class LuaScriptBuilder extends \yii\base\BaseObject
 {
