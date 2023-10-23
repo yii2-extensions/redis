@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/**
+ * @link https://www.yiiframework.com/
+ *
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yii\redis;
 
 use Yii;
@@ -49,6 +56,11 @@ use yii\mutex\RetryAcquireTrait;
  *
  * @see \yii\mutex\Mutex
  * @see https://redis.io/topics/distlock
+ *
+ * @author Sergey Makinen <sergey@makinen.ru>
+ * @author Alexander Zhuravlev <axelhex@gmail.com>
+ *
+ * @since 2.0.6
  */
 class Mutex extends \yii\mutex\Mutex
 {

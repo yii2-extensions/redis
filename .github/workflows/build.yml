@@ -11,6 +11,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
+
       matrix:
         os:
           - ubuntu-latest
@@ -30,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start Redis v4
-        uses: superchargejs/redis-github-action@1.1.0
+        uses: superchargejs/redis-github-action@1.7.0
         with:
           redis-version: ${{ matrix.redis }}
 

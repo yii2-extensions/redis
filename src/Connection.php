@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/**
+ * @link https://www.yiiframework.com/
+ *
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yii\redis;
 
 use yii\base\Component;
@@ -240,6 +247,10 @@ use yii\helpers\VarDumper;
  * @property bool $isActive Whether the DB connection is established.
  * @property LuaScriptBuilder $luaScriptBuilder
  * @property false|resource $socket
+ *
+ * @author Carsten Brandt <mail@cebe.cc>
+ *
+ * @since 2.0
  */
 class Connection extends Component
 {
